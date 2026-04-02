@@ -1,0 +1,2194 @@
+{"Layers": [{
+  "Name": "QuantizeLinear_3",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "image",
+    "Location": "Device",
+    "Dimensions": [1,6,3,256,704],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "175",
+    "Location": "Device",
+    "Dimensions": [1,6,3,256,704],
+    "Format/Datatype": "Row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "Reshape_0",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "175",
+    "Location": "Device",
+    "Dimensions": [1,6,3,256,704],
+    "Format/Datatype": "Row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "178",
+    "Location": "Device",
+    "Dimensions": [6,3,256,704],
+    "Format/Datatype": "Row major Int8 format"
+  }],
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to model.backbone.conv1.weight + QuantizeLinear_8 + Conv_10 + Relu_11",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "178",
+    "Location": "Device",
+    "Dimensions": [6,3,256,704],
+    "Format/Datatype": "Row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to model.backbone.conv1.weight + QuantizeLinear_8 + Conv_10 + Relu_11",
+    "Location": "Device",
+    "Dimensions": [6,3,256,704],
+    "Format/Datatype": "Four wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.conv1.weight + QuantizeLinear_8 + Conv_10 + Relu_11",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to model.backbone.conv1.weight + QuantizeLinear_8 + Conv_10 + Relu_11",
+    "Location": "Device",
+    "Dimensions": [6,3,256,704],
+    "Format/Datatype": "Four wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "188",
+    "Location": "Device",
+    "Dimensions": [6,64,128,352],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [7,7],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [3,3],
+  "PostPadding": [3,3],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 9408},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "ampere_fp32_icudnn_int8x4_128x64_relu_medium_nn_v1",
+  "TacticValue": "0xb29abdd00304c881"
+},{
+  "Name": "MaxPool_12",
+  "LayerType": "CaskPooling",
+  "Inputs": [
+  {
+    "Name": "188",
+    "Location": "Device",
+    "Dimensions": [6,64,128,352],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to MaxPool_12",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Pooling",
+  "PoolingType": "MAX",
+  "WindowSize": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "BlendFactor": 0,
+  "AverageCountExcludesPadding": 1,
+  "TacticName": "sm50_xmma_pooling_tiled_FP32NCHW_kMAX_custom_tP4_tQ32_tRS3_tUV2",
+  "TacticValue": "0x2639d3932b27ac67"
+},{
+  "Name": "Reformatting CopyNode for Output Tensor 0 to MaxPool_12",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to MaxPool_12",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "189",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "QuantizeLinear_15",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "189",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "192",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer1.0.conv1.weight + QuantizeLinear_20 + Conv_22 + Relu_23",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "192",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "205",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize256x64x64_stage4_warpsize4x1x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xd3d41ef6de22d9b6"
+},{
+  "Name": "model.backbone.layer1.0.conv2.weight + QuantizeLinear_31 + Conv_33 + Add_34 + Relu_35",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "205",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "189",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "216",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize256x64x64_stage4_warpsize4x1x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xe2bc5a4963d23ad0"
+},{
+  "Name": "QuantizeLinear_38",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "216",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "219",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer1.1.conv1.weight + QuantizeLinear_43 + Conv_45 + Relu_46",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "219",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "232",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize256x64x64_stage4_warpsize4x1x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xd3d41ef6de22d9b6"
+},{
+  "Name": "model.backbone.layer1.1.conv2.weight + QuantizeLinear_54 + Conv_56 + Add_57 + Relu_58",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "232",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "216",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "243",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize256x64x64_stage4_warpsize4x1x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xe2bc5a4963d23ad0"
+},{
+  "Name": "QuantizeLinear_61",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "243",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "246",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer2.0.conv1.weight + QuantizeLinear_66 + Conv_68 + Relu_69",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "246",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "259",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 73728},
+  "Bias": {"Type": "Float", "Count": 128},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x128x64_stage4_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xea88b51105501f96"
+},{
+  "Name": "model.neck.lateral_convs.0.conv.weight + QuantizeLinear_234 + Conv_236",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "246",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "569",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 4096},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x64x64_stage3_warpsize2x2x1_g1_tensor16x8x32_simple_t1r1s1",
+  "TacticValue": "0x483ad1560c6e5e27"
+},{
+  "Name": "model.backbone.layer2.0.conv2.weight + QuantizeLinear_77 + Conv_79",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "259",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "268",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 147456},
+  "Bias": {"Type": "Float", "Count": 128},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x128x64_stage4_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xfa6c413ca4875a2e"
+},{
+  "Name": "model.backbone.layer2.0.downsample.0.weight + QuantizeLinear_87 + Conv_89 + Add_90 + Relu_91",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "246",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "268",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "282",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 8192},
+  "Bias": {"Type": "Float", "Count": 128},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize64x128x64_stage6_warpsize2x2x1_g1_tensor16x8x32_t1r1s1",
+  "TacticValue": "0x68f52f0a3f1c5b56"
+},{
+  "Name": "QuantizeLinear_94",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "282",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "285",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer2.1.conv1.weight + QuantizeLinear_99 + Conv_101 + Relu_102",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "285",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "298",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 147456},
+  "Bias": {"Type": "Float", "Count": 128},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x128x64_stage3_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xf33711e7c9ed4673"
+},{
+  "Name": "model.backbone.layer2.1.conv2.weight + QuantizeLinear_110 + Conv_112 + Add_113 + Relu_114",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "298",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "282",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "309",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 147456},
+  "Bias": {"Type": "Float", "Count": 128},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x128x64_stage4_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xfa6c413ca4875a2e"
+},{
+  "Name": "QuantizeLinear_117",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "309",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "312",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer3.0.conv1.weight + QuantizeLinear_122 + Conv_124 + Relu_125",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "312",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "325",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 294912},
+  "Bias": {"Type": "Float", "Count": 256},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x128x64_stage3_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xf33711e7c9ed4673"
+},{
+  "Name": "model.neck.lateral_convs.1.conv.weight + QuantizeLinear_244 + Conv_246",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "312",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "539",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 8192},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x64x64_stage3_warpsize2x2x1_g1_tensor16x8x32_simple_t1r1s1",
+  "TacticValue": "0x483ad1560c6e5e27"
+},{
+  "Name": "DequantizeLinear_299",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "539",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "542",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "model.backbone.layer3.0.conv2.weight + QuantizeLinear_133 + Conv_135",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "325",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "334",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 589824},
+  "Bias": {"Type": "Float", "Count": 256},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x128x64_stage4_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xfa6c413ca4875a2e"
+},{
+  "Name": "model.backbone.layer3.0.downsample.0.weight + QuantizeLinear_143 + Conv_145 + Add_146 + Relu_147",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "312",
+    "Location": "Device",
+    "Dimensions": [6,128,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "334",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "348",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 32768},
+  "Bias": {"Type": "Float", "Count": 256},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize64x64x64_stage6_warpsize2x2x1_g1_tensor16x8x32_t1r1s1",
+  "TacticValue": "0x27fb8661fea664b3"
+},{
+  "Name": "QuantizeLinear_150",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "348",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "351",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer3.1.conv1.weight + QuantizeLinear_155 + Conv_157 + Relu_158",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "351",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "364",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 589824},
+  "Bias": {"Type": "Float", "Count": 256},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x128x64_stage3_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xf33711e7c9ed4673"
+},{
+  "Name": "model.backbone.layer3.1.conv2.weight + QuantizeLinear_166 + Conv_168 + Add_169 + Relu_170",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "364",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "348",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "375",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 589824},
+  "Bias": {"Type": "Float", "Count": 256},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x128x64_stage4_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xfa6c413ca4875a2e"
+},{
+  "Name": "QuantizeLinear_173",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "375",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "378",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer4.0.conv1.weight + QuantizeLinear_178 + Conv_180 + Relu_181",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "378",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "391",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 512,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 1179648},
+  "Bias": {"Type": "Float", "Count": 512},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x128x64_stage3_warpsize2x2x1_g1_tensor16x8x32",
+  "TacticValue": "0x87620679fb5f37df"
+},{
+  "Name": "model.neck.lateral_convs.2.conv.weight + QuantizeLinear_254 + Conv_256",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "378",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "509",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 16384},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x64x64_stage3_warpsize2x2x1_g1_tensor16x8x32_simple_t1r1s1",
+  "TacticValue": "0x483ad1560c6e5e27"
+},{
+  "Name": "DequantizeLinear_279",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "509",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "512",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer4.0.conv2.weight + QuantizeLinear_189 + Conv_191",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "391",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "400",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 512,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 2359296},
+  "Bias": {"Type": "Float", "Count": 512},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize64x128x64_stage6_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xe266dbc8b588209b"
+},{
+  "Name": "model.backbone.layer4.0.downsample.0.weight + QuantizeLinear_199 + Conv_201 + Add_202 + Relu_203",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "378",
+    "Location": "Device",
+    "Dimensions": [6,256,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "400",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "414",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 512,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 131072},
+  "Bias": {"Type": "Float", "Count": 512},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x128x64_stage4_warpsize2x2x1_g1_tensor16x8x32",
+  "TacticValue": "0x43e3804f158e597d"
+},{
+  "Name": "QuantizeLinear_206",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "414",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "417",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.backbone.layer4.1.conv1.weight + QuantizeLinear_211 + Conv_213 + Relu_214",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "417",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "430",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 512,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 2359296},
+  "Bias": {"Type": "Float", "Count": 512},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8i8_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize96x128x64_stage3_warpsize2x2x1_g1_tensor16x8x32",
+  "TacticValue": "0x87620679fb5f37df"
+},{
+  "Name": "model.backbone.layer4.1.conv2.weight + QuantizeLinear_222 + Conv_224 + Add_225 + Relu_226",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "430",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "414",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "441",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 512,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 2359296},
+  "Bias": {"Type": "Float", "Count": 512},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 1,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "RELU",
+  "HasBias": 1,
+  "HasReLU": 1,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize64x128x64_stage6_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xe266dbc8b588209b"
+},{
+  "Name": "QuantizeLinear_259",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "441",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "480",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.neck.lateral_convs.3.conv.weight + QuantizeLinear_264 + Conv_266",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "480",
+    "Location": "Device",
+    "Dimensions": [6,512,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "489",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 32768},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x64x64_stage6_warpsize2x2x1_g1_tensor16x8x32_simple_t1r1s1",
+  "TacticValue": "0x758f8b2079a95b2e"
+},{
+  "Name": "QuantizeLinear_282",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "489",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "506",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003e8"
+},{
+  "Name": "QuantizeLinear_359",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "489",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "618",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003e8"
+},{
+  "Name": "Resize_273",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "506",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "515",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "NEAREST",
+  "ResizeScales": [0, 0, 0, 0, 0, 0, 0, 0],
+  "ExcludeOutside": 0,
+  "CubicCoeff": -0.75,
+  "CoordTransform": "kASYMMETRIC",
+  "ResizeSelector": "kFORMULA",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0000000000000005"
+},{
+  "Name": "DequantizeLinear_285",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "515",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "518",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "model.neck.fpn_convs.3.conv.weight + QuantizeLinear_364 + Conv_366",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "618",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "627",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f32_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_tilesize64x32x64_stage6_warpsize2x1x1_g1_tensor16x8x32_t1r3s3_alignc4",
+  "TacticValue": "0x85c1a5f7f239cf84"
+},{
+  "Name": "PWN(Add_286)",
+  "LayerType": "PointWiseV2",
+  "Inputs": [
+  {
+    "Name": "512",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Row major linear FP32"
+  },
+  {
+    "Name": "518",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "519",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "PointWise",
+  "ParameterSubType": "PointWiseExpression",
+  "NbInputArgs": 2,
+  "InputArgs": ["arg0", "arg1"],
+  "NbOutputVars": 1,
+  "OutputVars": ["var0"],
+  "NbParams": 0,
+  "Params": [],
+  "NbLiterals": 0,
+  "Literals": [],
+  "NbOperations": 1,
+  "Operations": ["auto const var0 = pwgen::iPlus(arg0, arg1);"],
+  "TacticValue": "0x0000000000000007"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to Resize_423",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "627",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Resize_423",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "Resize_423",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Resize_423",
+    "Location": "Device",
+    "Dimensions": [6,64,8,22],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "690",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "LINEAR",
+  "ResizeScales": [0, 0, 0, 0, 0, 0, 0, 0],
+  "ExcludeOutside": 0,
+  "CubicCoeff": -0.75,
+  "CoordTransform": "kHALF_PIXEL",
+  "ResizeSelector": "kUPPER",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0000000000000007"
+},{
+  "Name": "QuantizeLinear_302",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "519",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "536",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "QuantizeLinear_349",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "519",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "606",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "Resize_293",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "536",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "545",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "NEAREST",
+  "ResizeScales": [0, 0, 0, 0, 0, 0, 0, 0],
+  "ExcludeOutside": 0,
+  "CubicCoeff": -0.75,
+  "CoordTransform": "kASYMMETRIC",
+  "ResizeSelector": "kFORMULA",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0000000000000005"
+},{
+  "Name": "DequantizeLinear_305",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "545",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "548",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "model.neck.fpn_convs.2.conv.weight + QuantizeLinear_354 + Conv_356",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "606",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "615",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize128x64x64_stage6_warpsize2x2x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0x4133eb8759ee0d6d"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to PWN(Add_306)",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "542",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to PWN(Add_306)",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 16 == 0"
+  }],
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 1 to PWN(Add_306)",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "548",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 1 to PWN(Add_306)",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 16 == 0"
+  }],
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "PWN(Add_306)",
+  "LayerType": "PointWiseV2",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to PWN(Add_306)",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 16 == 0"
+  },
+  {
+    "Name": "Reformatted Input Tensor 1 to PWN(Add_306)",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 16 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to PWN(Add_306)",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 16 == 0"
+  }],
+  "ParameterType": "PointWise",
+  "ParameterSubType": "PointWiseExpression",
+  "NbInputArgs": 2,
+  "InputArgs": ["arg0", "arg1"],
+  "NbOutputVars": 1,
+  "OutputVars": ["var0"],
+  "NbParams": 0,
+  "Params": [],
+  "NbLiterals": 0,
+  "Literals": [],
+  "NbOperations": 1,
+  "Operations": ["auto const var0 = pwgen::iPlus(arg0, arg1);"],
+  "TacticValue": "0x000000000000001e"
+},{
+  "Name": "Reformatting CopyNode for Output Tensor 0 to PWN(Add_306)",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to PWN(Add_306)",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 16 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "549",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to Resize_404",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "615",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Resize_404",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "Resize_404",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Resize_404",
+    "Location": "Device",
+    "Dimensions": [6,64,16,44],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "669",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "LINEAR",
+  "ResizeScales": [0, 0, 0, 0, 0, 0, 0, 0],
+  "ExcludeOutside": 0,
+  "CubicCoeff": -0.75,
+  "CoordTransform": "kHALF_PIXEL",
+  "ResizeSelector": "kUPPER",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0000000000000007"
+},{
+  "Name": "QuantizeLinear_322",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "549",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "566",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "QuantizeLinear_339",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "549",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "594",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "QDQ",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "Resize_313",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "566",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "575",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "NEAREST",
+  "ResizeScales": [0, 0, 0, 0, 0, 0, 0, 0],
+  "ExcludeOutside": 0,
+  "CubicCoeff": -0.75,
+  "CoordTransform": "kASYMMETRIC",
+  "ResizeSelector": "kFORMULA",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0000000000000005"
+},{
+  "Name": "model.neck.fpn_convs.1.conv.weight + QuantizeLinear_344 + Conv_346",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "594",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "603",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize256x64x64_stage4_warpsize4x1x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xe2bc5a4963d23ad0"
+},{
+  "Name": "PWN(Add_326)",
+  "LayerType": "PointWiseV2",
+  "Inputs": [
+  {
+    "Name": "569",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  },
+  {
+    "Name": "575",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "582",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "ParameterType": "PointWise",
+  "ParameterSubType": "PointWiseExpression",
+  "NbInputArgs": 2,
+  "InputArgs": ["arg0", "arg1"],
+  "NbOutputVars": 1,
+  "OutputVars": ["var0"],
+  "NbParams": 0,
+  "Params": [],
+  "NbLiterals": 0,
+  "Literals": [],
+  "NbOperations": 1,
+  "Operations": ["auto const var0 = pwgen::iPlus(arg0, arg1);"],
+  "TacticValue": "0x0000000000000015"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to Resize_385",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "603",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Resize_385",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "Resize_385",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Resize_385",
+    "Location": "Device",
+    "Dimensions": [6,64,32,88],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "648",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "LINEAR",
+  "ResizeScales": [0, 0, 0, 0, 0, 0, 0, 0],
+  "ExcludeOutside": 0,
+  "CubicCoeff": -0.75,
+  "CoordTransform": "kHALF_PIXEL",
+  "ResizeSelector": "kUPPER",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0000000000000007"
+},{
+  "Name": "model.neck.fpn_convs.0.conv.weight + QuantizeLinear_334 + Conv_336",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "582",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major Int8 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to model.neck.fpn_convs.0.conv.weight + QuantizeLinear_334 + Conv_336",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Int8", "Count": 36864},
+  "Bias": {"Type": "Float", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "sm80_xmma_fprop_implicit_gemm_interleaved_i8f16_i8i32_f32_nchw_vect_c_32kcrs_vect_c_32_nchw_vect_c_32_tilesize256x64x64_stage4_warpsize4x1x1_g1_tensor16x8x32_t1r3s3",
+  "TacticValue": "0xe2bc5a4963d23ad0"
+},{
+  "Name": "Reformatting CopyNode for Output Tensor 0 to model.neck.fpn_convs.0.conv.weight + QuantizeLinear_334 + Conv_336",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to model.neck.fpn_convs.0.conv.weight + QuantizeLinear_334 + Conv_336",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Thirty-two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "691",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 4 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "648 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "648",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "691",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 4 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "669 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "669",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "691",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 4 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "690 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "690",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "691",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 4 == 0"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x00000000000003ea"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to Conv_425",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "691",
+    "Location": "Device",
+    "Dimensions": [6,256,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 4 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Conv_425",
+    "Location": "Device",
+    "Dimensions": [6,256,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "TacticValue": "0x0000000000000000"
+},{
+  "Name": "Conv_425",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to Conv_425",
+    "Location": "Device",
+    "Dimensions": [6,256,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to Conv_425",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 147456},
+  "Bias": {"Type": "Half", "Count": 64},
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "ampere_h16816cudnn_256x64_ldg8_relu_exp_stages_64x3_small_nhwc_tn_v1",
+  "TacticValue": "0xb6fa5ffcc1a9d518"
+},{
+  "Name": "Reformatting CopyNode for Output Tensor 0 to Conv_425",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to Conv_425",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Channel major FP16 format where channel % 8 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "mlvl_feat",
+    "Location": "Device",
+    "Dimensions": [6,64,64,176],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0000000000000000"
+}],
+"Bindings": ["image"
+,"mlvl_feat"
+]}

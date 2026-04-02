@@ -1,0 +1,74 @@
+tcp_ip:
+  sub_port: "5555"
+  pub_port: "5555"
+  req_port: "4444"
+  rep_port: "4444"
+  zipcode: "00002"
+
+udp_ip:
+  port: "8080"
+  send_group: "FV3"
+  recv_group: "FV2"
+
+socket:
+  rad_flag: true
+  dsh_flag: true
+  req_flag: true
+  rep_flag: false
+  sub_flag: true
+  pub_flag: false
+
+params:
+  target_vel: 0.00
+  safety_vel: 0.45
+  fv_max_vel: 1.20
+  lv_stop_dist: 0.5
+  fv_stop_dist: 0.3
+  safety_dist: 1.5
+  target_dist: 0.8
+  angle_degree: 0.0
+  Kp_d: 2.0
+  Kd_d: 0.4
+  K: 0.20
+  a:
+    a: 15.382
+    b: -57.657
+    c: 79.912
+    d: -48.716
+    e: 11.19
+  b: 
+    a: 9.4969
+    b: -37.445
+    c: 54.573
+    d: -34.897
+    e: 8.4135
+
+Calibration:
+  matrix:
+    a: 332.03782768352386
+    b: 0. 
+    c: 320. 
+    d: 0. 
+    e: 332.03782768352386
+    f: 240. 
+    g: 0.
+    h: 0. 
+    i: 1.
+  dist_coef:
+    a: -0.33140950145477255
+    b: 0.12372697252401374
+    c: 0.
+    d: 0. 
+    e: -0.022529125535951176
+
+ROI:
+  width: 640
+  height: 480
+  top_gap: 0.41
+  bot_gap: 0.17
+  top_height: 0.99
+  bot_height: 0.47
+  extra_f: 16.00
+  extra_b: 8.00
+  extra_up: 140
+  extra_down: 180

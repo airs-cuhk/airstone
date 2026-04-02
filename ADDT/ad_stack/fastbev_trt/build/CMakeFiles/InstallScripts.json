@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/krg/CUDA-FastBEV-main/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

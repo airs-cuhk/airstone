@@ -1,0 +1,217 @@
+{    
+    "objects": 
+    [
+        {
+            "type": "sensor.pseudo.traffic_lights",
+            "id": "traffic_lights"
+        },
+        {
+            "type": "sensor.pseudo.objects",
+            "id": "objects"
+        },
+        {
+            "type": "sensor.pseudo.actor_list",
+            "id": "actor_list"
+        },
+        {
+            "type": "sensor.pseudo.markers",
+            "id": "markers"
+        },
+        {
+            "type": "sensor.pseudo.opendrive_map",
+            "id": "map"
+        },
+        {
+            "type": "vehicle.tesla.model3",
+            "id": "ego_vehicle",
+	    "spawn_point": {
+        	    "x": -99.6,
+        	    "y": -74.3,
+        	    "z": 0.5,
+              	    "roll": 0.0,
+        	    "pitch": 0.0,
+        	    "yaw": 0.0
+    	    },
+            "sensors": 
+            [
+		{
+                    "type": "sensor.camera.rgb",
+                    "id": "rgb_front_1",
+                    "spawn_point": {"x": 1.72, "y": 0.0, "z": 1.5, "roll": 0.0, "pitch": 0.0, "yaw": 0.0},
+                    "image_size_x": 1600,
+                    "image_size_y": 900,
+                    "fov": 70.0
+                },
+		{
+                    "type": "sensor.camera.rgb",
+                    "id": "rgb_front",
+                    "spawn_point": {"x": 2.0, "y": 0.0, "z": 3.0, "roll": 0.0, "pitch": 15.0, "yaw": 0.0},
+                    "image_size_x": 800,
+                    "image_size_y": 600,
+                    "fov": 90.0
+                },
+		{
+                    "type": "sensor.camera.rgb",
+                    "id": "rgb_front_right",
+                    "spawn_point": {"x": 1.52, "y": -0.5, "z": 1.5, "roll": 0.0, "pitch": 0.0, "yaw": -55.0},
+                    "image_size_x": 1600,
+                    "image_size_y": 900,
+                    "fov": 70.0
+                },
+		{
+                    "type": "sensor.camera.rgb",
+                    "id": "rgb_front_left",
+                    "spawn_point": {"x": 1.52, "y": 0.5, "z": 1.5, "roll": 0.0, "pitch": 0.0, "yaw": 55.0},
+                    "image_size_x": 1600,
+                    "image_size_y": 900,
+                    "fov": 70.0
+                },
+                {
+                    "type": "sensor.camera.rgb",
+                    "id": "rgb_view",
+                    "spawn_point": {"x": -4.5, "y": 0.0, "z": 2.8, "roll": 0.0, "pitch": 20.0, "yaw": 0.0},
+                    "image_size_x": 1600,
+                    "image_size_y": 1200,
+                    "fov": 90.0,
+                    "attached_objects":
+                    [
+                        {
+                            "type": "actor.pseudo.control",
+                            "id": "control"
+                        }
+                    ]
+                },
+                
+                {
+                    "type": "sensor.other.collision",
+                    "id": "collision",
+                    "spawn_point": {"x": 0.0, "y": 0.0, "z": 0.0}
+                },
+                {
+                    "type": "sensor.other.lane_invasion",
+                    "id": "lane_invasion",
+                    "spawn_point": {"x": 0.0, "y": 0.0, "z": 0.0}
+                },
+                {
+                    "type": "sensor.pseudo.tf",
+                    "id": "tf"
+                },
+                {
+                    "type": "sensor.pseudo.objects",
+                    "id": "objects"
+                },
+                {
+                    "type": "sensor.pseudo.odom",
+                    "id": "odometry"
+                },
+                {
+                    "type": "sensor.pseudo.speedometer",
+                    "id": "speedometer"
+                },
+                {
+                    "type": "actor.pseudo.control",
+                    "id": "control"
+                }
+            ]
+        },
+	{
+            "type": "vehicle.toyota.prius",
+            "id": "test_vehicle",
+	    "spawn_point": {
+        	    "x": -20.3,
+        	    "y": -70.9,
+        	    "z": 0.5,
+              	    "roll": 0.0,
+        	    "pitch": 0.0,
+        	    "yaw": -180.0
+    	    }
+        },
+	{
+            "type": "vehicle.lincoln.mkz_2017",
+            "id": "test_vehicle_1",
+	    "spawn_point": {
+        	    "x": -36.3,
+        	    "y": -74.7,
+        	    "z": 0.5,
+              	    "roll": 0.0,
+        	    "pitch": 0.0,
+        	    "yaw": 0.0
+    	    },
+	   "sensors": 
+            [
+                {
+                    "type": "sensor.camera.rgb",
+                    "id": "rgb_view",
+                    "spawn_point": {"x": -4.5, "y": 0.0, "z": 2.8, "roll": 0.0, "pitch": 20.0, "yaw": 0.0},
+                    "image_size_x": 400,
+                    "image_size_y": 300,
+                    "fov": 90.0,
+                    "attached_objects":
+                    [
+                        {
+                            "type": "actor.pseudo.control",
+                            "id": "control"
+                        }
+                    ]
+                },
+                 
+                {
+                    "type": "sensor.pseudo.tf",
+                    "id": "tf"
+                },
+                {
+                    "type": "sensor.pseudo.objects",
+                    "id": "objects"
+                },
+                {
+                    "type": "sensor.pseudo.odom",
+                    "id": "odometry"
+                },
+                {
+                    "type": "sensor.pseudo.speedometer",
+                    "id": "speedometer"
+                },
+                {
+                    "type": "actor.pseudo.control",
+                    "id": "control"
+                }
+            ]
+        },
+	{
+    	    "type": "walker.pedestrian.0004",
+    	    "id": "test_pedestrian",
+    	    "spawn_point": {
+        	    "x": -39.3,
+        	    "y": -82.1,
+        	    "z": 0.5,
+        	    "roll": 0.0,
+        	    "pitch": 0.0,
+        	    "yaw": -176.0
+            }
+	},
+	{
+    	    "type": "walker.pedestrian.0005",
+    	    "id": "test_pedestrian_1",
+    	    "spawn_point": {
+        	    "x": -37.6,
+        	    "y": -71.1,
+        	    "z": 0.5,
+        	    "roll": 0.0,
+        	    "pitch": 0.0,
+        	    "yaw": -0.0
+            }
+	},
+	{
+    	    "type": "walker.pedestrian.0006",
+    	    "id": "test_pedestrian_2",
+    	    "spawn_point": {
+        	    "x": -31.9,
+        	    "y": -70.8,
+        	    "z": 0.5,
+        	    "roll": 0.0,
+        	    "pitch": 0.0,
+        	    "yaw": -0.0
+            }
+	}
+    ]
+}
